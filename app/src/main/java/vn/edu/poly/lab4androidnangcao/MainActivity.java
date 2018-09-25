@@ -14,13 +14,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements LocationListener{
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private TextView tvMyLocation;
 
@@ -50,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
 
         boolean is3G = networkInfo.isConnected();
 
-        if (isWifi) Toast.makeText(this,getString(R.string.is_wifi),Toast.LENGTH_SHORT).show();
+        if (isWifi) Toast.makeText(this, getString(R.string.is_wifi), Toast.LENGTH_SHORT).show();
 
-        if (is3G) Toast.makeText(this,getString(R.string.is_3g),Toast.LENGTH_SHORT).show();
+        if (is3G) Toast.makeText(this, getString(R.string.is_3g), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -83,23 +84,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                             Manifest.permission.ACCESS_COARSE_LOCATION},
                     999);
 
+
             return;
         }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 999){
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            }
-        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
 
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
