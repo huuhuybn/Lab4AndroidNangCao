@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements LocationListener{
 
@@ -32,6 +35,25 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
                 requestMyLocation();
             }
         });
+        checkNetworkStatus();
+    }
+
+    private void checkNetworkStatus() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        boolean isWifi = networkInfo.isConnected();
+
+        networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        boolean is3G = networkInfo.isConnected();
+
+        if (isWifi) Toast.makeText(this,getString(R.string.is_wifi),Toast.LENGTH_SHORT).show();
+
+        if (is3G) Toast.makeText(this,getString(R.string.is_3g),Toast.LENGTH_SHORT).show();
+
     }
 
     private void initViews() {
